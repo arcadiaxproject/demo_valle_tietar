@@ -146,6 +146,7 @@ function RootComponent() {
         <RoleGate />
         <NegocioGate />
         <VisitanteGate />
+        {/* Términos y Condiciones: bloquea el registro (no el login) hasta aceptarlos. */}
         <TerminosDialog />
         <Toaster />
       </AuthProvider>
