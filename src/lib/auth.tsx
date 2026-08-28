@@ -20,7 +20,19 @@ type AuthContextValue = {
   user: User | null;
   profile: Profile | null;
   loading: boolean;
-  signInWithGoogle: (intent: "login" | "register") => Promise<void>;
+  /**
+   * Inicia el login con Google. Si el intent es "register", primero abre el
+   * diálogo de Términos y Condiciones y solo continúa si el usuario los acepta
+   * (ver TerminosDialog + confirmTerms). El "login" de una cuenta existente va
+   * directo, sin diálogo.
+   */
+  requestSignIn: (intent: "login" | "register") => void;
+  /** true mientras el diálogo de Términos (previo al registro) está abierto. */
+  termsIntent: "register" | null;
+  /** El usuario ha aceptado los Términos: continúa con el registro por Google. */
+  confirmTerms: () => Promise<void>;
+  /** El usuario cierra el diálogo sin aceptar: no se registra. */
+  cancelTerms: () => void;
   signOut: () => Promise<void>;
   setRole: (role: "cliente" | "comercio") => Promise<void>;
   updateProfile: (
@@ -44,6 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [termsIntent, setTermsIntent] = useState<"register" | null>(null);
 
   const handledSignIn = useRef(false);
 
@@ -96,7 +109,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, [session?.user]);
 
-  async function signInWithGoogle(intent: "login" | "register") {
+  async function startGoogleOAuth(intent: "login" | "register") {
     localStorage.setItem(INTENT_KEY, intent);
     await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -105,6 +118,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         queryParams: { prompt: "select_account" },
       },
     });
+  }
+
+  // El registro (y el alta de negocio, que también registra) exige aceptar los
+  // Términos antes de nada. El inicio de sesión de una cuenta ya existente no.
+  function requestSignIn(intent: "login" | "register") {
+    if (intent === "login") {
+      void startGoogleOAuth("login");
+      return;
+    }
+    setTermsIntent("register");
+  }
+
+  function cancelTerms() {
+    setTermsIntent(null);
+  }
+
+  async function confirmTerms() {
+    if (!termsIntent) return;
+    setTermsIntent(null);
+    await startGoogleOAuth("register");
   }
 
   async function signOut() {
@@ -153,7 +186,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user: session?.user ?? null,
         profile,
         loading,
-        signInWithGoogle,
+        requestSignIn,
+        termsIntent,
+        confirmTerms,
+        cancelTerms,
         signOut,
         setRole,
         updateProfile,

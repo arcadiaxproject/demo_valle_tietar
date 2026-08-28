@@ -35,7 +35,7 @@ function GoogleIcon() {
 }
 
 function AuthControls({ solid, mobile = false }: { solid: boolean; mobile?: boolean }) {
-  const { user, profile, loading, signInWithGoogle, signOut } = useAuth();
+  const { user, profile, loading, requestSignIn, signOut } = useAuth();
 
   if (loading) return null;
 
@@ -43,7 +43,7 @@ function AuthControls({ solid, mobile = false }: { solid: boolean; mobile?: bool
     return (
       <div className="flex items-center gap-3">
         <button
-          onClick={() => void signInWithGoogle("login")}
+          onClick={() => requestSignIn("login")}
           className={`text-sm font-semibold transition-opacity hover:opacity-70 ${
             solid ? "text-foreground" : "text-primary-foreground"
           }`}
@@ -51,7 +51,7 @@ function AuthControls({ solid, mobile = false }: { solid: boolean; mobile?: bool
           Iniciar sesión
         </button>
         <button
-          onClick={() => void signInWithGoogle("register")}
+          onClick={() => requestSignIn("register")}
           className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-semibold transition-colors ${
             solid
               ? "border-border text-foreground hover:bg-secondary"

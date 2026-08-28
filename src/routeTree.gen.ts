@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as CuentaRouteImport } from './routes/cuenta'
+import { Route as TerminosRouteImport } from './routes/terminos'
 import { Route as CategoriaCategoriaRouteImport } from './routes/categoria.$categoria'
 import { Route as NegocioIdRouteImport } from './routes/negocio.$id'
 import { Route as PuebloPuebloRouteImport } from './routes/pueblo.$pueblo'
@@ -29,6 +30,11 @@ const AdminRoute = AdminRouteImport.update({
 const CuentaRoute = CuentaRouteImport.update({
   id: '/cuenta',
   path: '/cuenta',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TerminosRoute = TerminosRouteImport.update({
+  id: '/terminos',
+  path: '/terminos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CategoriaCategoriaRoute = CategoriaCategoriaRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/cuenta': typeof CuentaRoute
+  '/terminos': typeof TerminosRoute
   '/categoria/$categoria': typeof CategoriaCategoriaRoute
   '/negocio/$id': typeof NegocioIdRoute
   '/pueblo/$pueblo': typeof PuebloPuebloRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/cuenta': typeof CuentaRoute
+  '/terminos': typeof TerminosRoute
   '/categoria/$categoria': typeof CategoriaCategoriaRoute
   '/negocio/$id': typeof NegocioIdRoute
   '/pueblo/$pueblo': typeof PuebloPuebloRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/cuenta': typeof CuentaRoute
+  '/terminos': typeof TerminosRoute
   '/categoria/$categoria': typeof CategoriaCategoriaRoute
   '/negocio/$id': typeof NegocioIdRoute
   '/pueblo/$pueblo': typeof PuebloPuebloRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/cuenta'
+    | '/terminos'
     | '/categoria/$categoria'
     | '/negocio/$id'
     | '/pueblo/$pueblo'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/cuenta'
+    | '/terminos'
     | '/categoria/$categoria'
     | '/negocio/$id'
     | '/pueblo/$pueblo'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/cuenta'
+    | '/terminos'
     | '/categoria/$categoria'
     | '/negocio/$id'
     | '/pueblo/$pueblo'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   CuentaRoute: typeof CuentaRoute
+  TerminosRoute: typeof TerminosRoute
   CategoriaCategoriaRoute: typeof CategoriaCategoriaRoute
   NegocioIdRoute: typeof NegocioIdRoute
   PuebloPuebloRoute: typeof PuebloPuebloRoute
@@ -129,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/cuenta'
       fullPath: '/cuenta'
       preLoaderRoute: typeof CuentaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terminos': {
+      id: '/terminos'
+      path: '/terminos'
+      fullPath: '/terminos'
+      preLoaderRoute: typeof TerminosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/categoria/$categoria': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   CuentaRoute: CuentaRoute,
+  TerminosRoute: TerminosRoute,
   CategoriaCategoriaRoute: CategoriaCategoriaRoute,
   NegocioIdRoute: NegocioIdRoute,
   PuebloPuebloRoute: PuebloPuebloRoute,

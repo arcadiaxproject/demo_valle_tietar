@@ -22,7 +22,7 @@ const beneficios = [
 ];
 
 function NegocioCta() {
-  const { user, signInWithGoogle } = useAuth();
+  const { user, requestSignIn } = useAuth();
 
   return (
     <div className="relative flex h-full flex-col justify-center overflow-hidden bg-[linear-gradient(135deg,#d97042_0%,#c1502e_55%,#9c3f22_100%)] px-8 py-16 text-accent-foreground sm:px-12 lg:py-0">
@@ -54,7 +54,7 @@ function NegocioCta() {
         </Link>
       ) : (
         <button
-          onClick={() => void signInWithGoogle("register")}
+          onClick={() => requestSignIn("register")}
           className="mt-9 w-fit rounded-lg bg-ink px-7 py-4 text-sm font-bold text-accent-foreground shadow-lift transition-colors hover:bg-ink/90"
         >
           Da de alta tu negocio

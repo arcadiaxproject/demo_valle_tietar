@@ -15,6 +15,7 @@ import { AuthProvider } from "../lib/auth";
 import { RoleGate } from "../components/site/RoleGate";
 import { NegocioGate } from "../components/site/NegocioGate";
 import { VisitanteGate } from "../components/site/VisitanteGate";
+import { TerminosDialog } from "../components/site/TerminosDialog";
 import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
@@ -145,6 +146,7 @@ function RootComponent() {
         <RoleGate />
         <NegocioGate />
         <VisitanteGate />
+        <TerminosDialog />
         <Toaster />
       </AuthProvider>
     </QueryClientProvider>

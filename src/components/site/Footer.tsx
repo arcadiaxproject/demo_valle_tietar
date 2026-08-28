@@ -1,4 +1,5 @@
 import { Instagram } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 const enlaces = [
   { label: "Proyecto", href: "#proyecto" },
@@ -36,6 +37,12 @@ export function Footer() {
               {e.label}
             </a>
           ))}
+          <Link
+            to="/terminos"
+            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Términos y Condiciones
+          </Link>
         </nav>
 
         <p className="text-xs text-muted-foreground">
