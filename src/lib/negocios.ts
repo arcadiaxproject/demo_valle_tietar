@@ -1,4 +1,5 @@
 import { supabase } from "./supabase";
+import { supabaseDemo } from "./supabaseDemo";
 import type { Database } from "./database.types";
 
 export type Negocio = Database["public"]["Tables"]["negocios"]["Row"];
@@ -17,18 +18,22 @@ export const CATEGORIAS_NEGOCIO = [
 // De momento solo se pueden dar de alta negocios de estos dos municipios.
 export const MUNICIPIOS_DISPONIBLES = ["Sotillo de la Adrada", "La Adrada"] as const;
 
+// Listado público que ve cualquier visitante: mientras esta sea la demo,
+// muestra los negocios falseados (BD demo), no los reales.
 export async function fetchNegocios(): Promise<Negocio[]> {
-  const { data, error } = await supabase.from("negocios").select("*");
+  const { data, error } = await supabaseDemo.from("negocios").select("*");
   if (error) throw error;
   return data;
 }
 
 export async function fetchNegocioPorId(id: string): Promise<Negocio | null> {
-  const { data, error } = await supabase.from("negocios").select("*").eq("id", id).maybeSingle();
+  const { data, error } = await supabaseDemo.from("negocios").select("*").eq("id", id).maybeSingle();
   if (error) throw error;
   return data;
 }
 
+// A partir de aquí: un negocio real que se loguea gestiona su propia ficha
+// contra la base de datos real, igual que en la web original.
 export async function fetchMiNegocio(ownerId: string): Promise<Negocio | null> {
   const { data, error } = await supabase
     .from("negocios")
@@ -107,9 +112,10 @@ export async function contarFavoritosDeNegocio(negocioId: string): Promise<numbe
   return count ?? 0;
 }
 
-// Solo el administrador ve algo distinto aquí: gracias a RLS, para el resto
-// de usuarios esta consulta ya viene filtrada a sus propios negocios y a
-// los aprobados.
+// Panel de admin: gestiona los negocios reales (altas pendientes de
+// aprobación), no el escaparate demo. Gracias a RLS, para el resto de
+// usuarios esta consulta ya viene filtrada a sus propios negocios y a los
+// aprobados.
 export async function fetchNegociosAdmin(): Promise<Negocio[]> {
   const { data, error } = await supabase
     .from("negocios")
