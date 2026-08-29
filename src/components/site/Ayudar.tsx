@@ -61,9 +61,7 @@ function NegocioCta() {
         </button>
       )}
 
-      <p className="mt-5 text-xs text-accent-foreground/75">
-        Únete a los +120 negocios que ya forman parte del Valle.
-      </p>
+      
     </div>
   );
 }

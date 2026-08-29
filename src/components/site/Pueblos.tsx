@@ -1,4 +1,4 @@
-import { ArrowUpRight, MapPin } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import p1 from "@/assets/pueblo-1.jpg";
@@ -8,8 +8,8 @@ import { fetchNegocios } from "@/lib/negocios";
 import { Reveal } from "./Reveal";
 
 const pueblos = [
-  { nombre: "Sotillo de la Adrada", tag: "El corazón del Valle", img: p1 },
-  { nombre: "La Adrada", tag: "Historia y castillo", img: p3 },
+  { nombre: "Sotillo de la Adrada", img: p1 },
+  { nombre: "La Adrada", img: p3 },
 ];
 
 export function Pueblos() {
@@ -63,14 +63,8 @@ export function Pueblos() {
                   </span>
 
                   <span className="absolute inset-x-6 bottom-6 flex items-end justify-between gap-3">
-                    <span>
-                      <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-terracotta">
-                        <MapPin className="size-3.5" />
-                        {p.tag}
-                      </span>
-                      <span className="mt-2 block font-serif text-3xl font-semibold text-primary-foreground">
-                        {p.nombre}
-                      </span>
+                    <span className="block font-serif text-3xl font-semibold text-primary-foreground">
+                      {p.nombre}
                     </span>
                     <ArrowUpRight className="size-6 shrink-0 text-primary-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </span>

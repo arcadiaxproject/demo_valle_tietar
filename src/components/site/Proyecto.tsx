@@ -3,7 +3,7 @@ import { Reveal } from "./Reveal";
 
 const stats: [string, string][] = [
   ["+120", "negocios locales"],
-  ["9", "pueblos del Valle"],
+  ["24", "pueblos del Valle"],
   ["100%", "de lo que gastas se queda aquí"],
 ];
 
